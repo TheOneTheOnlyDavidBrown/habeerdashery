@@ -1,6 +1,6 @@
 # Habeerdashery
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0.
+[Github pages live demo](https://theonetheonlydavidbrown.github.io/habeerdashery/products)
 
 ## Development server
 
