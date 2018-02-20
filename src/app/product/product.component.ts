@@ -6,12 +6,11 @@ import { Observable } from 'rxjs/Observable';
 
 import { ProductService } from '../product.service';
 import { Product } from '../product.model';
-import { IfObservable } from 'rxjs/observable/IfObservable';
 
 @Component({
   selector: 'app-product',
   template: `
-<div class="container">
+<div class="container" *ngIf="product?.name">
   <div class="row">
     <div class="col-md-12 d-flex align-items-stretch">
       <div class="card card-cascade">
@@ -38,7 +37,7 @@ export class ProductComponent implements OnInit {
 
   ngOnInit() {
     this.id = this.route.snapshot.params.id;
-    this.productService.getProduct(this.id).subscribe((product) => this.product = product[0]);
+    this.productService.getProduct(this.id).subscribe((product) => this.product = product);
   }
 
 }

@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 
+import { ProductService } from '../product.service';
+import { Product } from '../product.model';
+
 @Component({
   selector: 'app-shopping-cart',
   template: `
   <div class="container">
-	<table id="cart" class="table table-hover table-condensed">
+	  <table id="cart" class="table table-hover table-condensed">
     				<thead>
 						<tr>
 							<th style="width:50%">Product</th>
@@ -15,13 +18,14 @@ import { Component, OnInit } from '@angular/core';
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
+						<tr *ngFor="let product of products">
 							<td data-th="Product">
 								<div class="row">
-									<div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
+									<div class="col-sm-2 hidden-xs"><img class="img-fluid" [src]="product?.image_url" width="50" style="float:left">
+                  </div>
 									<div class="col-sm-10">
-										<h4 class="nomargin">Product 1</h4>
-										<p>Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet.</p>
+										<h4 class="nomargin">{{product.name}}</h4>
+										<p>{{product.description}}</p>
 									</div>
 								</div>
 							</td>
@@ -48,13 +52,16 @@ import { Component, OnInit } from '@angular/core';
 						</tr>
 					</tfoot>
 				</table>
-  `
+  `,
+  providers: [ProductService]
 })
 export class ShoppingCartComponent implements OnInit {
+  products: Product[];
 
-  constructor() { }
+  constructor(private productService: ProductService) { }
 
   ngOnInit() {
+    this.productService.getProduct(123).subscribe((product) => this.products = [product]);
   }
 
 }
