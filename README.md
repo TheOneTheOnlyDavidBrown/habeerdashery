@@ -1,6 +1,6 @@
 # Habeerdashery
 
-[Github pages live demo](https://theonetheonlydavidbrown.github.io/habeerdashery/products)
+[Github pages live demo](https://theonetheonlydavidbrown.github.io/habeerdashery)
 
 ## Development server
 
