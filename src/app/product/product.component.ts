@@ -5,7 +5,7 @@ import { Product } from '../product.model';
 
 @Component({
   selector: 'app-product',
-  template: 'product! {{id}} {{ product[0].name  }}',
+  template: `{{ product[0].name }}`,
   providers: [ProductService]
 })
 export class ProductComponent implements OnInit {
