@@ -18,7 +18,7 @@ export class ProductService {
     return this.http.get('https://api.punkapi.com/v2/beers').map(this.extractData)
   }
 
-  getProduct(id): Observable<Product[]> {
+  getProduct(id): Observable<Product> {
     return this.http.get(`https://api.punkapi.com/v2/beers/${id}`).map(this.extractData)
   }
 
