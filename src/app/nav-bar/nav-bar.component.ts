@@ -19,7 +19,7 @@ export class NavBarComponent implements OnInit {
   }
 
   totalQuantity(cart = []) {
-    if (!cart.length) return 0;
+    if (!cart || !cart.length) return 0;
     return cart.map((c) => (c.quantity)).reduce((a, b) => a + b);
   }
 
