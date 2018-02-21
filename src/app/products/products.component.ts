@@ -12,17 +12,17 @@ import { ADD_TO_CART } from '../actions/cart.actions';
   template: `
     <div class="container">
       <div class="row">
-        <div *ngFor="let p of products" class="col-md-4 d-flex align-items-stretch">
+        <div *ngFor="let product of products" class="col-md-4 d-flex align-items-stretch">
           <div class="card card-cascade">
             
             <div class="card-body">
-            <img class="img-fluid" [src]="p.image_url" width="50" style="float:left;padding-right:15px">
-              <h4 class="card-title"><a class="nav-link" routerLink="/products/{{p.id}}">{{p.name}}</a></h4>
-              <p class="card-text"><small class="text-muted">ABV: {{p.abv}}</small></p>
-              <p class="card-text">{{p.description}}</p>
-              <p class="card-text"><a class="nav-link" routerLink="/products/{{p.id}}">More Info</a><p>
+            <img class="img-fluid" [src]="product.image_url" width="50" style="float:left;padding-right:15px">
+              <h4 class="card-title"><a class="nav-link" routerLink="/products/{{product.id}}">{{product.name}}</a></h4>
+              <p class="card-text"><small class="text-muted">ABV: {{product.abv}}</small></p>
+              <p class="card-text">{{product.description}}</p>
+              <p class="card-text"><a class="nav-link" routerLink="/products/{{product.id}}">More Info</a><p>
 
-              <button class="btn btn-primary" (click)="addToCart(p)">Add to cart</button>
+              <button class="btn btn-primary" (click)="addToCart(product)">Add to cart {{product.price | currency}}</button>
             </div>
           </div>
         </div>
@@ -40,7 +40,7 @@ export class ProductsComponent implements OnInit {
     this.productService.getProducts().subscribe((products) => this.products = products);
   }
 
-  addToCart(product) {
+  addToCart(product: Product) {
     this.store.dispatch({ type: ADD_TO_CART, payload: { product } });
   }
 

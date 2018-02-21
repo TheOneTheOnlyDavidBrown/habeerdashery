@@ -22,6 +22,10 @@ export class ProductService {
   getProducts(): Observable<Product[]> {
     return this.http.get('https://api.punkapi.com/v2/beers')
       .map(this.extractData)
+      .map((data) => {
+        data.forEach(datum => datum.price = datum.abv*4); // nice semi-random price
+        return data;
+      });
 
   }
 

@@ -3,7 +3,7 @@ import { Action } from '@ngrx/store';
 export const ADD_TO_CART = 'ADD_TO_CART';
 export const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
 export const ADD_TO_PRODUCT_LIST = 'ADD_TO_PRODUCT_LIST';
-export const UPDATE_QUANTITY = 'INCREASE_QUANTITY';
+export const UPDATE_QUANTITY = 'UPDATE_QUANTITY';
 
 export class AddToCart implements Action {
     readonly type = ADD_TO_CART;

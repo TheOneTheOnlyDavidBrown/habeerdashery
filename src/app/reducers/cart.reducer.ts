@@ -17,17 +17,12 @@ export function cartReducer(state: AppState = defaultState, action: any = { prod
   let { cart, products } = state;
   switch (action.type) {
       case CartActions.ADD_TO_CART:
-        // mock price to id because it's a demo and I want different numbers on each product
-        action.payload.product.price = action.payload.product.id*.75;
-          
         if (!cart.find((c)=> c.id === action.payload.product.id)) {
-         
           action.payload.product.quantity = 1;
           cart.push(action.payload.product);
         } else {
           cart.find((c) => c.id === action.payload.product.id).quantity += 1;
         }
-      
         return { ...state, cart };
       case CartActions.REMOVE_FROM_CART:
         cart = cart.filter((product) => action.payload.product.id !== product.id);

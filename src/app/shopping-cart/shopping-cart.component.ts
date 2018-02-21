@@ -35,7 +35,7 @@ import { Observable } from 'rxjs/Observable';
           </td>
           <td data-th="Price">{{product.price | currency}}</td>
           <td data-th="Quantity">
-            <input type="number" class="form-control text-center" value="{{product.quantity}}" min="1" (input)="quantityChanged(product, $event.target.value)">
+            <input type="number" class="form-control text-center" [value]="product.quantity" min="1" (input)="quantityChanged(product, $event.target.value)">
           </td>
           <td data-th="Subtotal" class="text-center">{{product.price * product.quantity | currency}}</td>
           <td class="actions" data-th="">
@@ -80,8 +80,8 @@ export class ShoppingCartComponent implements OnInit {
     return rtn;
   }
 
-  quantityChanged(product, quantity) {
-    console.log(product, quantity)
+  quantityChanged(product, quantity: number) {
+    quantity = +quantity; // I feel like this shouldn't be needed in TS
     this.store.dispatch({ type: UPDATE_QUANTITY, payload: { product, quantity } });
   }
 
