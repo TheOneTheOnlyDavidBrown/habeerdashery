@@ -1,38 +1,32 @@
 import { Action } from '@ngrx/store';
 import { AppState } from '../appstate.interface';
-import { Product } from '../product.model';
 
 import * as CartActions from '../actions/cart.actions';
+import { CartItem } from '../cartItem.model';
 
-export type Action = CartActions.All;
-
-const defaultState: AppState = {
-  user:{},
-  products: [],
+const initialState: AppState = {
   cart: []
 }
 
-export function cartReducer(state: AppState = defaultState, action: any = { product: Product }) {
-  console.log('REDUCER', action, state);
-  let { cart, products } = state;
+export function cartReducer(state: AppState = initialState, action: CartActions.All) {
+  console.log('CART REDUCER', action, state);
+  let { cart: cartItems } = state;
   switch (action.type) {
       case CartActions.ADD_TO_CART:
-        if (!cart.find((c)=> c.id === action.payload.product.id)) {
-          action.payload.product.quantity = 1;
-          cart.push(action.payload.product);
+        if (!cartItems.find((c)=> c.product.id === action.payload.product.id)) {
+          action.payload.quantity = 1;
+          action.payload.price = action.payload.product.price;
+          cartItems.push(action.payload);
         } else {
-          cart.find((c) => c.id === action.payload.product.id).quantity += 1;
+          cartItems.find((c) => c.product.id === action.payload.product.id).quantity += 1;
         }
-        return { ...state, cart };
+        return { ...state, cart: cartItems };
       case CartActions.REMOVE_FROM_CART:
-        cart = cart.filter((product) => action.payload.product.id !== product.id);
-        return { ...state, cart };
+        cartItems = cartItems.filter((cartItem) => action.payload.product.id !== cartItem.product.id);
+        return { ...state, cart: cartItems };
       case CartActions.UPDATE_QUANTITY:
-        cart.find((c) => c.id === action.payload.product.id).quantity = action.payload.quantity;
-        return { ...state, cart };
-      case CartActions.ADD_TO_PRODUCT_LIST:
-        products.push(action.payload.product);
-        return { ...state, products };
+        cartItems.find((c) => c.product.id === action.payload.product.id).quantity = action.payload.quantity;
+        return { ...state, cart: cartItems };
       default:
         return state;
   }

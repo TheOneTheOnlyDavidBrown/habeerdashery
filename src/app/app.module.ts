@@ -15,8 +15,9 @@ import { HomeComponent } from './home/home.component';
 import { ProductsComponent } from './products/products.component';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 
-import { cartReducer } from './reducers/cart.reducer';
-const reducers: ActionReducerMap<any> = { cartReducer };
+import { cartReducer as cart } from './reducers';
+
+const reducers: ActionReducerMap<any> = { cart };
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
   return localStorageSync({keys: ['cart'], rehydrate: true})(reducer);
@@ -45,7 +46,7 @@ const appRoutes: Routes = [
     BrowserModule,
     FormsModule,
     HttpModule,
-    StoreModule.forRoot({cart: cartReducer}, {metaReducers}),
+    StoreModule.forRoot(reducers, { metaReducers }),
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true } // <-- debugging purposes only

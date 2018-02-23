@@ -4,4 +4,5 @@ export class Product {
     image_url: string
     description: string
     abv: number
+    price: number
 }

@@ -22,35 +22,35 @@ import { Observable } from 'rxjs/Observable';
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let product of (products | async)?.cart">
+        <tr *ngFor="let cartItem of (cartItems | async)?.cart">
           <td data-th="Product">
             <div class="row">
-              <div class="col-sm-2 hidden-xs"><img class="img-fluid" [src]="product?.image_url" width="50" style="float:left">
+              <div class="col-sm-2 hidden-xs"><img class="img-fluid" [src]="cartItem.product?.image_url" width="50" style="float:left">
               </div>
               <div class="col-sm-10">
-                <h4 class="nomargin">{{product.name}}</h4>
-                <p>{{product.description}}</p>
+                <h4 class="nomargin">{{cartItem.product.name}}</h4>
+                <p>{{cartItem.product.description}}</p>
               </div>
             </div>
           </td>
-          <td data-th="Price">{{product.price | currency}}</td>
+          <td data-th="Price">{{cartItem.product.price | currency}}</td>
           <td data-th="Quantity">
-            <input type="number" class="form-control text-center" [value]="product.quantity" min="1" (input)="quantityChanged(product, $event.target.value)">
+            <input type="number" class="form-control text-center" [value]="cartItem.quantity" min="1" (input)="quantityChanged(cartItem.product, $event.target.value)">
           </td>
-          <td data-th="Subtotal" class="text-center">{{product.price * product.quantity | currency}}</td>
+          <td data-th="Subtotal" class="text-center">{{cartItem.price * cartItem.quantity | currency}}</td>
           <td class="actions" data-th="">
-            <button class="btn btn-danger btn-sm" (click)="removeProduct(product)"><i class="fa fa-trash-o"></i></button>								
+            <button class="btn btn-danger btn-sm" (click)="removeProduct(cartItem)"><i class="fa fa-trash-o"></i></button>								
           </td>
         </tr>
       </tbody>
       <tfoot>
         <tr class="visible-xs">
-          <td class="text-center"><strong>Total {{ calculateTotalOrderPrice((products | async)?.cart) | currency }}</strong></td>
+          <td class="text-center"><strong>Total {{ calculateTotalOrderPrice((cartItems | async)?.cart) | currency }}</strong></td>
         </tr>
         <tr>
           <td><a href="#" class="btn btn-warning"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
           <td colspan="2" class="hidden-xs"></td>
-          <td class="hidden-xs text-center"><strong>Total {{ calculateTotalOrderPrice((products | async)?.cart) | currency }}</strong></td>
+          <td class="hidden-xs text-center"><strong>Total {{ calculateTotalOrderPrice((cartItems | async)?.cart) | currency }}</strong></td>
           <td><a href="#" class="btn btn-success btn-block">Checkout <i class="fa fa-angle-right"></i></a></td>
         </tr>
       </tfoot>
@@ -59,22 +59,22 @@ import { Observable } from 'rxjs/Observable';
   providers: [ProductService]
 })
 export class ShoppingCartComponent implements OnInit {
-  products: Observable<CartItem[]>;
+  cartItems: Observable<CartItem[]>;
   totalOrderPrice: number;
 
   constructor(private productService: ProductService, private store: Store<AppState>) { }
 
   ngOnInit() {
-    this.products = this.store.select('cart');
+    this.cartItems = this.store.select('cart');
   }
 
-  removeProduct(product) {
-    this.store.dispatch({ type: REMOVE_FROM_CART, payload: { product } });
+  removeProduct(payload) {
+    this.store.dispatch({ type: REMOVE_FROM_CART, payload });
   }
 
-  calculateTotalOrderPrice(products) {
-    if (!products.length) return 0;
-    const rtn = products
+  calculateTotalOrderPrice(cartItems = []) {
+    if (!cartItems || !cartItems.length) return 0;
+    const rtn = cartItems
       .map((item) => (item.price*item.quantity)) // pulls price into array so it's easier to sum
       .reduce((a, b) => a + b);
     return rtn;
